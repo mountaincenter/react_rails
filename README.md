@@ -44,6 +44,24 @@ touch frontend/Dockerfile
   # シリアライザー
   gem 'active_model_serializers'
   ```
+- devise,devise_token_authのインストール(Userモデルの作成)
+  ```
+  rails g devise:install
+  rails g devise_token_auth:install User auth
+  rails g db:migrate
+  ```
+- curlコマンドにてアカウント作成及びサインインができるか確認(コンテナ内)
+  ```
+  # アカウント作成(ユーザー名:test email:test@example パスワード:password)
+  curl -X POST -v http://localhost:3000/api/v1/auth \
+  -d "[name]=test&[email]=test@example.com&[password]=password&[password_confirmation]=password"
+
+  # サインイン(email:test@example.com パスワード:password)
+  # -iオプションはヘッダー情報の取得
+  curl http://localhost:3000/api/v1/auth/sign_in \
+  -d "[email]=test@example.com&[password]=password" -i
+  ```
+
 
 ### フロントエンド
 - react
