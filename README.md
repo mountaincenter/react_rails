@@ -44,3 +44,31 @@ touch frontend/Dockerfile
   # シリアライザー
   gem 'active_model_serializers'
   ```
+
+### フロントエンド
+- react
+  ```
+  docker-compose run --rm front bash
+  # current directryに新規作成
+  yarn create react-app . --template typescript
+  ```
+- libraly
+  ```
+  # axios(rails側で作成したapiを呼び出し)
+  yarn add axios axios-case-converter
+  yarn add -D @types-axios
+
+  # js-cookie(認証Cookieを操作するためのライブラリ)
+  yarn add js-cookie
+  yarn add -D @types/js-cookie
+
+  # mui(UIを整えるmaterialUIのライブラリ)
+  yarn add @mui/icons-material @mui/material @emotion/react @emotion/styled
+
+  # react-router-dom(ルーティング設定用のライブラリ)
+  yarn add react-router-dom
+  yarn add -D @types/react-route-dom
+
+  # date-fns(日付関連を操作するライブラリ)
+  yarn add date-fns
+  ```
