@@ -15,8 +15,8 @@ const App: React.FC = () => {
         <CommonLayout>
           <Routes>
             <Route path="/" element={<Home data="home" />}/>
-            <Route path="signin" element={<SignIn data="signIn" />} />
-            <Route path="signup" element={<SignUp data="signUp" />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="signup" element={<SignUp />} />
           </Routes>
         </CommonLayout>
       </BrowserRouter>
