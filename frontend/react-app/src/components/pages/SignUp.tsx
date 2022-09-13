@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie"
 import { TextField, Card, CardContent, CardHeader, Button} from "@mui/material"
-// import { AuthContext } from "App"
+import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { signUp } from "lib/api/auth"
 import { SignUpData } from "interfaces"
@@ -10,43 +10,43 @@ import { SignLanguageSharp } from "@mui/icons-material"
 
 
 const SignUp: React.FC = () => {
-  // const navigate = useNavigate()
-  // const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
-  // const [name, setName] = useState<string>("")
-  // const [email, setEmail] = useState<string>("")
-  // const [password, setPassword] = useState<string>("")
-  // const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
-  // const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext)
+  const [name, setName] = useState<string>("")
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
+  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false)
 
-  // const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault()
-  //   const params: SignUpParams = {
-  //     name: name,
-  //     email: email,
-  //     password: password,
-  //     passwordConfirmation: passwordConfirmation
-  //   }
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    const params: SignUpData = {
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirmation: passwordConfirmation
+    }
 
-  //   try {
-  //     const res = await signUp(params)
-  //     console.log(res)
+    try {
+      const res = await signUp(params)
+      console.log(res)
 
-  //     if (res.status === 200) {
-  //       Cookies.set("_access_token", res.headers["access-token"])
-  //       Cookies.set("_client", res.headers["client"])
-  //       Cookies.set("_uid", res.headers["uid"])
-  //       setIsSignedIn(true)
-  //       setCurrentUser(res.data.data)
-  //       navigate("/")
-  //       console.log("Signed in successfully!")
-  //     } else {
-  //       setAlertMessageOpen(true)
-  //     }
-  //   } catch (err) {
-  //     console.log(err)
-  //     setAlertMessageOpen(true)
-  //   }
-  // }
+      if (res.status === 200) {
+        Cookies.set("_access_token", res.headers["access-token"])
+        Cookies.set("_client", res.headers["client"])
+        Cookies.set("_uid", res.headers["uid"])
+        setIsSignedIn(true)
+        setCurrentUser(res.data.data)
+        navigate("/")
+        console.log("Signed in successfully!")
+      } else {
+        setAlertMessageOpen(true)
+      }
+    } catch (err) {
+      console.log(err)
+      setAlertMessageOpen(true)
+    }
+  }
   return(
     <>
       <form noValidate autoComplete="off">
@@ -58,18 +58,18 @@ const SignUp: React.FC = () => {
               required
               fullWidth
               label="Name"
-              // value={name}
+              value={name}
               margin="dense"
-              // onChange={event => setName(event.target.value)}
+              onChange={event => setName(event.target.value)}
             />
             <TextField
               variant="outlined"
               required
               fullWidth
               label="Email"
-              // value={email}
+              value={email}
               margin="dense"
-              // onChange={event => setEmail(event.target.value)}
+              onChange={event => setEmail(event.target.value)}
             />
             <TextField
               variant="outlined"
@@ -77,10 +77,10 @@ const SignUp: React.FC = () => {
               fullWidth
               label="Password"
               type="password"
-              // value={password}
+              value={password}
               margin="dense"
               autoComplete="current-password"
-              // onChange={event => setPassword(event.target.value)}
+              onChange={event => setPassword(event.target.value)}
             />
             <TextField
               variant="outlined"
@@ -88,10 +88,10 @@ const SignUp: React.FC = () => {
               fullWidth
               label="Password Confirmation"
               type="password"
-              // value={passwordConfirmation}
+              value={passwordConfirmation}
               margin="dense"
               autoComplete="current-password"
-              // onChange={event => setPasswordConfirmation(event.target.value)}
+              onChange={event => setPasswordConfirmation(event.target.value)}
             />
             <Button
               type="submit"
@@ -99,8 +99,8 @@ const SignUp: React.FC = () => {
               size="large"
               fullWidth
               color="inherit"
-              // disabled={!name || !email || !password || !passwordConfirmation}
-              // onClick={handleSubmit}
+              disabled={!name || !email || !password || !passwordConfirmation}
+              onClick={handleSubmit}
               sx={{ marginTop: 2 , flexGrow: 1, textTransform: "none"}}
             >
               Submit
@@ -108,12 +108,12 @@ const SignUp: React.FC = () => {
           </CardContent>
         </Card>
       </form>
-      {/* <AlertMessage
+      <AlertMessage
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
         severity="error"
         message="Invalid email and password"
-      /> */}
+      />
     </>
   )
 }
