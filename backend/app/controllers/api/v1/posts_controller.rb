@@ -2,7 +2,7 @@ class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[show destroy]
 
   def index
-    posts = Post.order(created_at: :desc).limit(20)
+    posts = Post.includes(:user).order(created_at: :desc).limit(20)
     render json: posts
   end
 

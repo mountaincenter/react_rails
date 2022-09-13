@@ -7,6 +7,8 @@ import SignIn from "components/pages/SignIn"
 import SignUp from "components/pages/SignUp"
 import { getCurrentUser } from "lib/api/auth"
 
+import PostList from "components/posts/PostList"
+
 export const AuthContext = createContext({} as {
   loading: boolean
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -65,6 +67,7 @@ const App: React.FC = () => {
               <Route path="/" element={<Private children={<Home />} />}/>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/posts" element={<PostList />} />
             </Routes>
           </CommonLayout>
         </AuthContext.Provider>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { AuthContext } from "App"
 import { Link } from "react-router-dom"
-
+import PostList from "components/posts/PostList"
 const LinkStyle = {
   textDecoration: "none",
 }
@@ -18,6 +18,7 @@ const Home: React.FC = () => {
               <h2>Email: {currentUser?.email}</h2>
             </Link>
             <h2>Name: {currentUser?.name}</h2>
+            <PostList />
           </>
         ) : (
           <>

@@ -49,6 +49,15 @@ const Header: React.FC = () => {
       } else {
           return(
             <>
+              {/* post_model作成用 */}
+              <Button
+                component={Link}
+                to="/posts"
+                color="inherit"
+                sx={{ textTransform: "none"}}
+              >
+                Post List
+              </Button>
               <Button
                 component={Link}
                 to="/signin"
