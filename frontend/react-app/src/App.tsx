@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { execTest } from "./lib/api/test"
+import CommonLayout from "./components/layouts/CommonLayout"
+
+import Home from "./components/pages/Home"
+import SignIn from "./components/pages/SignIn"
+import SignUp from "./components/pages/SignUp"
 
 
 const App: React.FC = () => {
-  const [message, setMessage] = useState<string>("")
-  const handleExecTest = async() => {
-    const res = await execTest()
-    if (res.status === 200) {
-      setMessage(res.data.message)
-    }
-  }
-  useEffect(() => {
-    handleExecTest()
-  }, [])
   return (
-    <h1>{message}</h1>
+    <>
+      <BrowserRouter>
+        <CommonLayout>
+          <Routes>
+            <Route path="/" element={<Home data="home" />}/>
+            <Route path="signin" element={<SignIn data="signIn" />} />
+            <Route path="signup" element={<SignUp data="signUp" />} />
+          </Routes>
+        </CommonLayout>
+      </BrowserRouter>
+    </>
+
   )
 }
 
