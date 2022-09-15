@@ -31,8 +31,8 @@ export interface User {
 export interface Post {
   id: string
   content: string
-  image?: {
-    url: string[]
+  images: {
+    url?: string[]
   }
   user: {
     id: number
