@@ -12,12 +12,14 @@ const PostList: React.FC = () => {
     const {data}  = await getPosts()
     setPosts(data.posts)
     console.log(data.posts)
+    console.log(typeof(data.posts))
   }
 
   useEffect(() => {
     handleGetPosts()
   }, [])
 
+  console.log(typeof(posts))
   return(
     <>
       <Container maxWidth="xl" sx={{ marginTop: "3rem"}}>

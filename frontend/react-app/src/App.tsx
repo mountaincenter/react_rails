@@ -8,6 +8,7 @@ import SignUp from "components/pages/SignUp"
 import { getCurrentUser } from "lib/api/auth"
 
 import PostList from "components/posts/PostList"
+import CommentList from "components/comment/Comment"
 
 export const AuthContext = createContext({} as {
   loading: boolean
@@ -68,6 +69,7 @@ const App: React.FC = () => {
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/posts" element={<PostList />} />
+              <Route path="/map" element={<CommentList />} />
             </Routes>
           </CommonLayout>
         </AuthContext.Provider>

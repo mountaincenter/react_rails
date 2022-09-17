@@ -31,9 +31,7 @@ export interface User {
 export interface Post {
   id: string
   content: string
-  images: {
-    url?: string[]
-  }
+  images?: ImageApiJson
   user: {
     id: number
     name: string
@@ -42,6 +40,18 @@ export interface Post {
   createdAt? : Date
 }
 
+
+export interface Image {
+  url: string | undefined
+}
 export interface PostApiJson {
   posts: Post[]
+}
+
+export interface ImageApiJson{
+  images: Image[]
+}
+
+export interface UserApiJson {
+  users: User[]
 }

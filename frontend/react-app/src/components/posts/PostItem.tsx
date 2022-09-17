@@ -29,7 +29,6 @@ interface PostItemProps {
 }
 
 
-
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
   const [like, setLike] = useState<boolean>(false)
   const handleDeletePost = async(id: string) => {
@@ -38,12 +37,6 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
       handleGetPosts()
     })
   }
-
-  interface ImageItemProps {
-    image :any
-    handleGetPosts: Function
-  }
-
   return(
     <>
       <Card sx={{ ...CardStyles }}>
