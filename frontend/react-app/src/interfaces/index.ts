@@ -22,7 +22,7 @@ export interface User {
   post: {
     id: string
     content: string
-    image?: {
+    images: {
       url: string[]
     }
   }
@@ -31,18 +31,18 @@ export interface User {
 export interface Post {
   id: string
   content: string
-  images?: ImageApiJson
+  images: Image[]
   user: {
     id: number
     name: string
     email: string
   }
-  createdAt? : Date
+  createdAt? : any
 }
 
 
 export interface Image {
-  url: string | undefined
+  url: string
 }
 export interface PostApiJson {
   posts: Post[]

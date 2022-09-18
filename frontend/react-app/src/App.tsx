@@ -8,7 +8,7 @@ import SignUp from "components/pages/SignUp"
 import { getCurrentUser } from "lib/api/auth"
 
 import PostList from "components/posts/PostList"
-import CommentList from "components/comment/Comment"
+import CommentList from "components/comment/CommentList"
 
 export const AuthContext = createContext({} as {
   loading: boolean

@@ -12,6 +12,7 @@ import Avatar from "boring-avatars"
 import { Post } from "interfaces"
 import { deletePost } from "lib/api/posts"
 
+import Default from "public/images/empty.jpeg"
 const CardStyles = {
   width: 320,
   marginTop: "2rem",
@@ -37,6 +38,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
       handleGetPosts()
     })
   }
+  const thumnail: any = post.images[0]
   return(
     <>
       <Card sx={{ ...CardStyles }}>
@@ -69,6 +71,20 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               })
             }
           </Typography>
+          { thumnail !== undefined ? (
+            <CardMedia
+              component="img"
+              src={thumnail.url}
+              alt="post image"
+            />
+          ) : (
+            <CardMedia
+              component="img"
+              src={Default}
+              alt="defult"
+            />
+          )
+          }
         </CardContent>
         <CardActions disableSpacing>
           <IconButton onClick={() => like ? setLike(false) : setLike(true)}>
