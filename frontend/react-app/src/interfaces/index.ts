@@ -15,7 +15,7 @@ export interface User {
   uid: string
   provider: string
   email: string
-  profile: string | null
+  profile: string
   name: string
   nickname?: string
   image?: string
@@ -55,4 +55,9 @@ export interface UserApiJson {
 export interface UpdateUserData {
   id: number | undefined | null
   name?: string
+  profile?: string
+}
+
+export interface UpdateUserFormData extends FormData {
+  append(name: keyof UpdateUserData, value: String | Blob, fileName?: string): any
 }
