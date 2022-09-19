@@ -75,7 +75,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
             </IconButton>
           }
           title={
-            <Link to="/posts" style={{ textDecoration: "none"}}>
+            <Link to={`/users/${post.user.id}`} style={{ textDecoration: "none"}}>
               {post.user.name}
             </Link>
           }
@@ -95,7 +95,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               })
             }
           </Typography>
-          { thumnail !== undefined ? (
+          { thumnail ? (
             <CardMedia
               component="img"
               src={thumnail.url}

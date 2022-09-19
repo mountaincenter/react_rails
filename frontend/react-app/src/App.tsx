@@ -9,6 +9,7 @@ import NotFound from "components/pages/NotFound"
 import { getCurrentUser } from "lib/api/auth"
 
 import UserHome from "components/users/Home"
+import UserShow from "components/users/User"
 
 export const AuthContext = createContext({} as {
   loading: boolean
@@ -65,10 +66,13 @@ const App: React.FC = () => {
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
           <CommonLayout>
             <Routes>
-              {/* <Route path="/" element={<Private children={<Home />} />}/> */}
+              <Route path="/" element={<Private children={<Home />} />}/>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
-              <Route path="/" element={<Private children={<UserHome />} />}/>
+              <Route path="users">
+                <Route path=":id" element={<UserShow />} />
+              </Route>
+              {/* <Route path="/" element={<Private children={<UserHome />} />}/> */}
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </CommonLayout>

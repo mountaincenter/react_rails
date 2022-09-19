@@ -29,7 +29,7 @@ export interface Post {
   content: string
   images: Image[]
   user: {
-    id: number
+    id: number | string
     name: string
     email: string
   }
@@ -51,9 +51,8 @@ export interface ImageApiJson{
 export interface UserApiJson {
   users: User[]
 }
-
 export interface UpdateUserData {
-  id: number | undefined | null
+  id?: number | undefined | null
   name?: string
   profile?: string
 }

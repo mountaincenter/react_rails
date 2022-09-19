@@ -21,5 +21,11 @@ unless Post.exists?
         content: Faker::Lorem.paragraph
       )
     end
+    Random.rand(0..3).times do
+      user.posts.create!(
+        content: Faker::Lorem::paragraph
+      )
+    end
   end
+
 end
