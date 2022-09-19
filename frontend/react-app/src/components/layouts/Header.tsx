@@ -44,6 +44,14 @@ const Header: React.FC = () => {
             >
               Sign out
             </Button>
+            <Button
+              component={Link}
+              to="/user"
+              color="inherit"
+              sx={{ textTransform: "none" }}
+            >
+              User
+            </Button>
           </>
         )
       } else {

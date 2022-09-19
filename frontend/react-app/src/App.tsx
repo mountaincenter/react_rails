@@ -5,9 +5,10 @@ import { User } from "interfaces"
 import Home from "components/pages/Home"
 import SignIn from "components/pages/SignIn"
 import SignUp from "components/pages/SignUp"
+import NotFound from "components/pages/NotFound"
 import { getCurrentUser } from "lib/api/auth"
 
-import PostList from "components/posts/PostList"
+import UserHome from "components/users/Home"
 
 export const AuthContext = createContext({} as {
   loading: boolean
@@ -64,9 +65,11 @@ const App: React.FC = () => {
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
           <CommonLayout>
             <Routes>
-              <Route path="/" element={<Private children={<Home />} />}/>
+              {/* <Route path="/" element={<Private children={<Home />} />}/> */}
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/" element={<Private children={<UserHome />} />}/>
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </CommonLayout>
         </AuthContext.Provider>
