@@ -19,13 +19,8 @@ export interface User {
   nickname?: string
   image?: string
   allowPasswordChange: boolean
-  post: {
-    id: string
-    content: string
-    images: {
-      url: string[]
-    }
-  }
+  createdAt?: Date
+  updateAt?: Date
 }
 
 export interface Post {
@@ -54,4 +49,9 @@ export interface ImageApiJson{
 
 export interface UserApiJson {
   users: User[]
+}
+
+export interface UpdateUserData {
+  id: number | undefined | null
+  name?: string
 }
