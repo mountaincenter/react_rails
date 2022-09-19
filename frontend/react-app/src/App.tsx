@@ -22,7 +22,7 @@ export const AuthContext = createContext({} as {
 const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [currentUser, setCurrentUser] = useState<User | undefined>()
+  const [currentUser, setCurrentUser] = useState<User>()
 
   const handleGetCurrentUser = async () => {
     try {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_13_030054) do
+ActiveRecord::Schema.define(version: 2022_09_19_055623) do
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "content"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2022_09_13_030054) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "profile", limit: 1000
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

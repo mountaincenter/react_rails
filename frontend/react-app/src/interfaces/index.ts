@@ -15,6 +15,7 @@ export interface User {
   uid: string
   provider: string
   email: string
+  profile: string | null
   name: string
   nickname?: string
   image?: string

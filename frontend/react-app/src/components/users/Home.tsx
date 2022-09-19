@@ -10,37 +10,70 @@ const UserHome = () => {
   console.log(currentUser)
   return(
     <>
-      <Card sx={{ width: 340 }}>
-        <CardContent>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <IconButton
-              >
-                <SettingsIcon
-                  color="action"
-                  fontSize="small"
+      { isSignedIn && currentUser ? (
+        <Card sx={{ width: 340 }}>
+          <CardContent>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <IconButton
+                >
+                  <SettingsIcon
+                    color="action"
+                    fontSize="small"
+                  />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <Grid container justifyContent="flex-start">
+              <Grid item>
+                <Avatar
+                  name={currentUser.name}
+                  variant="beam"
                 />
-              </IconButton>
+              </Grid>
+              <Grid item sx={{ marginLeft: "1rem", marginTop: "0.5rem"}}>
+                <Typography
+                  variant="body1"
+                  component="p"
+                  gutterBottom
+                >
+                  {currentUser?.name}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Avatar
-                name={currentUser?.name}
-                variant="beam"
-              />
+            <Grid container justifyContent="flex-start">
+              <Grid item sx={{ marginTop: "1.5rem"}}>
+                <Divider/>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  gutterBottom
+                  sx={{ marginTop:"0.5rem", fontWeight: "bold"}}
+                >
+                  自己紹介
+                </Typography>
+                { currentUser.profile !== null ? (
+                  <Typography
+                    variant="body2"
+                    component="p"
+                    color="textSecondary"
+                  >
+                    {currentUser.profile}
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    component="p"
+                    color="textSecondary"
+                  >
+                    よろしくお願いします
+                  </Typography>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container justifyContent="center">
-            <Grid item sx={{ marginTop: "1.5rem"}}>
-              <Typography variant="body1" component="p" gutterBottom>
-                {currentUser?.name}
-              </Typography>
-              <Divider style={{ marginTop: "0.5rem"}} />
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card> ): <></>
+      }
     </>
   )
 }

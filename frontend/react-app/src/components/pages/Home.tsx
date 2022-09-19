@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { AuthContext } from "App"
 import { Link } from "react-router-dom"
 import PostList from "components/posts/PostList"
+import UserHome from "components/users/Home"
 const LinkStyle = {
   textDecoration: "none",
 }
@@ -13,11 +14,7 @@ const Home: React.FC = () => {
       {
         isSignedIn && currentUser ? (
           <>
-            <h1>Signed in successfully!</h1>
-            <Link to={`/users/${currentUser.id}`} style={{ ...LinkStyle }}>
-              <h2>Email: {currentUser?.email}</h2>
-            </Link>
-            <h2>Name: {currentUser?.name}</h2>
+            <UserHome />
             <PostList />
           </>
         ) : (
