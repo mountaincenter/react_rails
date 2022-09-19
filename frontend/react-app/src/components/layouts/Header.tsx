@@ -49,24 +49,6 @@ const Header: React.FC = () => {
       } else {
           return(
             <>
-              {/* map_nest作成用 */}
-              <Button
-                component={Link}
-                to="/map"
-                color="inherit"
-                sx={{ textTransform: "none"}}
-              >
-                Comment
-              </Button>
-              {/* post_model作成用 */}
-              <Button
-                component={Link}
-                to="/posts"
-                color="inherit"
-                sx={{ textTransform: "none"}}
-              >
-                Post List
-              </Button>
               <Button
                 component={Link}
                 to="/signin"

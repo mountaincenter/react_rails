@@ -1,6 +1,6 @@
 import React,{ useEffect, useState } from "react"
 import { Container, Grid } from "@mui/material"
-// import PostForm from "./PostForm"
+import PostForm from "./PostForm"
 import PostItem from "./PostItem"
 
 import { getPosts } from "lib/api/posts"
@@ -11,18 +11,21 @@ const PostList: React.FC = () => {
   const handleGetPosts = async () => {
     const {data}  = await getPosts()
     setPosts(data.posts)
+    console.log(data.posts)
   }
 
   useEffect(() => {
     handleGetPosts()
   }, [])
 
-  console.log(typeof(posts))
   return(
     <>
       <Container maxWidth="xl" sx={{ marginTop: "3rem"}}>
         <Grid container direction="row" justifyContent="center">
           <Grid item>
+            <PostForm
+              handleGetPosts={handleGetPosts}
+            />
             { posts?.map((post: Post) => {
               return(
                 <PostItem

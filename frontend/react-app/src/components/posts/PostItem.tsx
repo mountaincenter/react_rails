@@ -9,10 +9,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Avatar from "boring-avatars"
 
-import { Post } from "interfaces"
+import { Post, Image } from "interfaces"
 import { deletePost } from "lib/api/posts"
 
+import { formatDistance, format } from "date-fns"
+import { ja } from "date-fns/locale"
+
 import Default from "public/images/empty.jpeg"
+
 const CardStyles = {
   width: 320,
   marginTop: "2rem",
@@ -29,6 +33,9 @@ interface PostItemProps {
   handleGetPosts: Function
 }
 
+interface ImageItemProps {
+  image: Image
+}
 
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
   const [like, setLike] = useState<boolean>(false)
@@ -39,6 +46,17 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
     })
   }
   const thumnail: any = post.images[0]
+  const ImageItem = ({ image }: ImageItemProps) => {
+    return(
+      <>
+        <CardMedia
+          component="img"
+          src={image.url}
+          alt="post image"
+        />
+      </>
+    )
+  }
   return(
     <>
       <Card sx={{ ...CardStyles }}>
@@ -60,6 +78,12 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
             <Link to="/posts" style={{ textDecoration: "none"}}>
               {post.user.name}
             </Link>
+          }
+          subheader={
+            formatDistance(
+              new Date(),
+              Date.parse(post.createdAt), {locale:ja}
+            )
           }
         />
         <CardContent>
@@ -85,6 +109,14 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
             />
           )
           }
+          { post.images.map((image) => {
+            return(
+              <ImageItem
+                key={image.url}
+                image={image}
+              />
+            )
+          })}
         </CardContent>
         <CardActions disableSpacing>
           <IconButton onClick={() => like ? setLike(false) : setLike(true)}>
