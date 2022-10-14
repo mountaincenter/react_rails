@@ -7,7 +7,23 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: { status: 200, user: @user}
+    @current_chat_room_user = ChatRoomUser.where(user_id: current_api_v1_user.id)
+    @another_chat_room_user = ChatRoomUser.where(user_id: @user.id)
+    unless @user.id == current_api_v1_user.id
+      @current_chat_room_user.each do |current|
+        @another_chat_room_user.each do |another|
+          if current.chat_room_id = another.chat_room_id
+            @is_chat_room = true
+            @chat_room_id = current.chat_room_id
+          end
+        end
+      end
+      unless @is_chat_room
+        @chat_room = ChatRoom.new
+        @chat_room_user = ChatRoomUser.new
+      end
+    end
+    render json: { status: 200, user: @user, chat_room: @chat_room, chat_room_user: @chat_room_user }
   end
 
   def update

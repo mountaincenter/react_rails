@@ -8,12 +8,11 @@ import { getUser } from "lib/api/users"
 import Avatar from "boring-avatars"
 
 const UserItem = ({userId}: any) => {
-  console.log(typeof(userId))
   const [user, setUser] = useState<User>()
   const handleGetUser = async() => {
     const { data } = await getUser(userId)
     setUser(data.user)
-    console.log(data.user)
+    console.log(data)
   }
   useEffect(() => {
     handleGetUser()
