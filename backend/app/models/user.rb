@@ -10,5 +10,6 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
 
   has_many :chat_room_users, dependent: :destroy
+  has_many :chat_room, through: :chat_room_users
   has_many :messages, dependent: :destroy
 end

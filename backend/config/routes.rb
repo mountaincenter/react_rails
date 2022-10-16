@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :test, only: %i[index]
       resources :users, only: %i[index show update]
       resources :messages, only: %i[create]
-      resources :chat_rooms, only: %i[create, index, show]
+      resources :chat_rooms, only: %i[create index show]
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations'
       }

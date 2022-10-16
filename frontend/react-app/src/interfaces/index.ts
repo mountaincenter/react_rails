@@ -60,3 +60,29 @@ export interface UpdateUserData {
 export interface UpdateUserFormData extends FormData {
   append(name: keyof UpdateUserData, value: String | Blob, fileName?: string): any
 }
+
+export interface ChatRoom {
+  chatRoom: {
+    id: number
+  }
+  otherUser: User
+  lastMessage: Message
+}
+
+export interface Message {
+  chatRoomId: number
+  userId: number | undefined
+  content: string
+  createAt?: Date
+}
+
+export interface ChatRoomUser {
+  userId: number | undefined
+}
+export interface UserId {
+  userId: number | undefined
+}
+
+export interface UserIdJson {
+  [key: string]: UserId
+}

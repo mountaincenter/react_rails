@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
 
@@ -8,6 +8,8 @@ import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Avatar from "boring-avatars"
+
+import { AuthContext } from "App"
 
 import { Post, Image } from "interfaces"
 import { deletePost } from "lib/api/posts"
@@ -38,6 +40,7 @@ interface ImageItemProps {
 }
 
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
+  const { currentUser } = useContext(AuthContext)
   const [like, setLike] = useState<boolean>(false)
   const handleDeletePost = async(id: string) => {
     await deletePost(id)
@@ -75,9 +78,16 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
             </IconButton>
           }
           title={
-            <Link to={`/users/${post.user.id}`} style={{ textDecoration: "none"}}>
-              {post.user.name}
-            </Link>
+            <>
+              { post.user.id === currentUser?.id ? (
+                  <>{post.user.name}</>
+                ):(
+                  <Link style={{ textDecoration: "none"}} to={`/users/${post.user.id}`} >
+                    {post.user.name}
+                  </Link>
+                )
+              }
+            </>
           }
           subheader={
             formatDistance(

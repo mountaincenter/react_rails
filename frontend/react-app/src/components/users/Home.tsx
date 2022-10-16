@@ -15,7 +15,6 @@ const UserHome = () => {
   const [editFormOpen, setEditFormOpen] = useState<boolean>(false)
   const [name, setName] = useState<string | undefined>(currentUser?.name)
   const [profile, setProfile ] = useState<string | undefined>(currentUser?.profile)
-  console.log(currentUser)
 
 
   // とりあえずany型後で変更

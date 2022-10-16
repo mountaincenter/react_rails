@@ -11,7 +11,6 @@ import UserItem from "./UserItem"
 const UserShow: React.FC = () => {
   const { currentUser } = useContext(AuthContext)
   const [posts, setPosts] = useState<Post[]>([])
-  console.log(currentUser)
   const handleGetPosts = async() => {
     const {data} = await getPosts()
     setPosts(data.posts)
