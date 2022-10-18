@@ -1,4 +1,4 @@
-import client from "./client"
+import client, { auth } from "./client"
 import Cookies from "js-cookie"
 
 import { SignUpData, SignInData } from "interfaces"
@@ -15,19 +15,11 @@ export const signIn = (data: SignInData) => {
 
 // サインアウト（ログアウト）
 export const signOut = () => {
-  return client.delete("auth/sign_out", { headers: {
-    "access-token": Cookies.get("_access_token") || "",
-    "client": Cookies.get("_client") || "",
-    "uid": Cookies.get("_uid") || ""
-  }})
+  return client.delete("auth/sign_out", auth)
 }
 
 // 認証済みのユーザーを取得（currentUser）
 export const getCurrentUser = () => {
   if(!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
-  return client.get("auth/sessions", { headers: {
-    "access-token": Cookies.get("_access_token") || "",
-    "client": Cookies.get("_client") || "",
-    "uid": Cookies.get("_uid") || ""
-  }})
+  return client.get("auth/sessions", auth )
 }

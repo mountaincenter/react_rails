@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[show update]
+  before_action :set_user, only: %i[show update following followers]
 
   def index
     users = User.where.not(id: current_api_v1_user.id)
@@ -31,6 +31,16 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { status: 500, message: "更新に失敗しました"}
     end
+  end
+
+  def following
+    @users = @user.following
+    render json: { status: 200, users: @users}
+  end
+
+  def followers
+    @users = @user.followers
+    render json: { status: 200, users: @users}
   end
 
   private

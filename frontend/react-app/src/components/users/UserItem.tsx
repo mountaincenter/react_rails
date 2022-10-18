@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import { Link } from "react-router-dom"
 import { User, UserIdJson, ChatRoomUser,  ChatRoom as ChatRoomInterface } from "interfaces"
-import { getUser } from "lib/api/users"
+import { getFollowingUsers, getFollowersUsers, getUser } from "lib/api/users"
 import { getChatRooms, createChatRoom } from "lib/api/chat_rooms"
 
 import { AuthContext } from "App";
@@ -14,12 +14,15 @@ import { AuthContext } from "App";
 import Avatar from "boring-avatars"
 import ChatRoom from "components/pages/ChatRoom";
 import ChatRooms from "components/pages/ChatRooms";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const UserItem = ({userId}: { userId: number}) => {
   const { currentUser } = useContext(AuthContext)
   const [user, setUser] = useState<User>()
   const [isRoom, setIsRoom] = useState<boolean>(false)
   const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>([])
+  const [following, setFollowing] = useState<User[]>([])
+  const [followers, setFollowers] = useState<User[]>([])
   const handleGetUser = async() => {
     try {
       const res = await getUser(userId)
@@ -45,9 +48,32 @@ const UserItem = ({userId}: { userId: number}) => {
       console.log(err)
     }
   }
+  const handleGetFollowingUsers = async() => {
+    try{
+      const res = await getFollowingUsers(userId)
+      setFollowing(res.data.users)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleGetFollowersUsers = async() => {
+    try{
+      const res = await getFollowersUsers(userId)
+      setFollowers(res.data.users)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    handleGetFollowingUsers()
+    handleGetFollowersUsers()
+  }, [])
+
   useEffect(() => {
     handleGetUser()
     handleGetChatRooms()
+    handleGetFollowingUsers()
   }, [])
 
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -76,6 +102,14 @@ const UserItem = ({userId}: { userId: number}) => {
                   name={user.name}
                   variant="beam"
                 />
+              }
+              subheader={
+                <>
+                  <small>
+                    {following.length}フォロー中 &nbsp;
+                    {followers.length}フォロワー
+                  </small>
+                </>
               }
               action={
                 <>
