@@ -19,7 +19,7 @@ const UserShow: React.FC = () => {
 
   const handleGetgetFollowingUsers = async() => {
     const res = await getFollowingUsers(currentUser?.id)
-    console.log(res)
+    // console.log(res)
   }
   useEffect(() => {
     handleGetPosts()

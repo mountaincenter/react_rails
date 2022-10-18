@@ -10,6 +10,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.find(params[:id])
     @current_user = ChatRoomUser.where(user_id: current_api_v1_user.id)
     @other_user = ChatRoomUser.where(user_id: @user.id)
+    @is_room = false
     unless @user.id == current_api_v1_user.id
       @current_user.each do |current|
         @other_user.each do |other|
@@ -19,8 +20,8 @@ class Api::V1::UsersController < ApplicationController
         end
       end
     end
-
-    render json: { status: 200, user: @user, is_room: @is_room }
+    @is_following = current_api_v1_user.following?(@user)
+    render json: { status: 200, user: @user, is_room: @is_room, is_following: @is_following, following: @user.following, followers: @user.followers }
   end
 
   def update
@@ -35,7 +36,7 @@ class Api::V1::UsersController < ApplicationController
 
   def following
     @users = @user.following
-    render json: { status: 200, users: @users}
+    render json: { status: 200, users: @users }
   end
 
   def followers

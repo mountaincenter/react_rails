@@ -31,7 +31,7 @@ const UserHome = () => {
     try{
       const res = await getFollowingUsers(currentUser?.id)
       setFollowing(res.data.users)
-      console.log(res)
+      // console.log(res)
     } catch(err) {
       console.log(err)
     }
@@ -41,7 +41,7 @@ const UserHome = () => {
     try{
       const res = await getFollowersUsers(currentUser?.id)
       setFollowers(res.data.users)
-      console.log(res)
+      // console.log(res)
     } catch(err) {
       console.log(err)
     }

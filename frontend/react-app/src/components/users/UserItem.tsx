@@ -1,34 +1,39 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 
-import { Card, CardHeader, CardContent, Divider, Typography, Chip, IconButton } from "@mui/material"
+import { Card, CardHeader, CardContent, Divider, Typography, Button, IconButton } from "@mui/material"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AddIcon from '@mui/icons-material/Add';
 
 import { Link } from "react-router-dom"
-import { User, UserIdJson, ChatRoomUser,  ChatRoom as ChatRoomInterface } from "interfaces"
-import { getFollowingUsers, getFollowersUsers, getUser } from "lib/api/users"
-import { getChatRooms, createChatRoom } from "lib/api/chat_rooms"
 
-import { AuthContext } from "App";
+import { User, ChatRoom as ChatRoomInterface } from "interfaces"
+
+import { getUser } from "lib/api/users"
+import { getChatRooms, createChatRoom } from "lib/api/chat_rooms"
+import { deleteFollow, createFollow } from "lib/api/relationships";
 
 import Avatar from "boring-avatars"
-import ChatRoom from "components/pages/ChatRoom";
-import ChatRooms from "components/pages/ChatRooms";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 const UserItem = ({userId}: { userId: number}) => {
-  const { currentUser } = useContext(AuthContext)
   const [user, setUser] = useState<User>()
   const [isRoom, setIsRoom] = useState<boolean>(false)
-  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>([])
+  const [isFollowing, setIsFollowing] = useState<boolean>(false)
+
   const [following, setFollowing] = useState<User[]>([])
   const [followers, setFollowers] = useState<User[]>([])
+
+  const [chatRooms, setChatRooms] = useState<ChatRoomInterface[]>([])
+
   const handleGetUser = async() => {
     try {
       const res = await getUser(userId)
       if (res.status === 200) {
         setUser(res.data.user)
         setIsRoom(res.data.isRoom)
+        setIsFollowing(res.data.isFollowing)
+        setFollowing(res.data.following)
+        setFollowers(res.data.followers)
+        // console.log(res.data)
       } else {
         console.log("No user")
       }
@@ -48,32 +53,10 @@ const UserItem = ({userId}: { userId: number}) => {
       console.log(err)
     }
   }
-  const handleGetFollowingUsers = async() => {
-    try{
-      const res = await getFollowingUsers(userId)
-      setFollowing(res.data.users)
-    } catch(err) {
-      console.log(err)
-    }
-  }
-
-  const handleGetFollowersUsers = async() => {
-    try{
-      const res = await getFollowersUsers(userId)
-      setFollowers(res.data.users)
-    } catch(err) {
-      console.log(err)
-    }
-  }
-  useEffect(() => {
-    handleGetFollowingUsers()
-    handleGetFollowersUsers()
-  }, [])
 
   useEffect(() => {
     handleGetUser()
     handleGetChatRooms()
-    handleGetFollowingUsers()
   }, [])
 
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -91,11 +74,45 @@ const UserItem = ({userId}: { userId: number}) => {
       console.log(err)
     }
   }
+
+  const handleCreateSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const data: any = {
+        followedId: userId
+      }
+      const res = await createFollow(data)
+      if (res.status === 200) {
+        setIsFollowing(true)
+        setFollowers(res.data.followers)
+        // console.log(res)
+      } else {
+        console.log("Could not create.")
+      }
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleDeleteSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const res = await deleteFollow(userId)
+      if(res.status === 200) {
+        setIsFollowing(false)
+        setFollowers(res.data.followers)
+        // console.log(res)
+      } else {
+        console.log("Could not delete.")
+      }
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
   return(
     <>
       {user ? (
         <>
-          <Card sx={{ width: 340 }}>
+          <Card sx={{ width: 400 }}>
             <CardHeader
               avatar={
                 <Avatar
@@ -106,7 +123,7 @@ const UserItem = ({userId}: { userId: number}) => {
               subheader={
                 <>
                   <small>
-                    {following.length}フォロー中 &nbsp;
+                    {following.length}フォロー中
                     {followers.length}フォロワー
                   </small>
                 </>
@@ -115,7 +132,7 @@ const UserItem = ({userId}: { userId: number}) => {
                 <>
                   { isRoom ? (
                     <>
-                      {chatRooms.map((chatRoom, index) => {
+                      { chatRooms.map((chatRoom, index) => {
                         return(
                           <>
                             { chatRoom.otherUser.id === userId ?
@@ -142,7 +159,29 @@ const UserItem = ({userId}: { userId: number}) => {
                       </IconButton>
                     </>
                   )}
-                  <Chip label="フォロー" />
+                  { isFollowing ? (
+                      <>
+                        <Button
+                          variant="outlined"
+                          color="secondary"
+                          size="small"
+                          onClick={handleDeleteSubmit}
+                        >
+                          フォロー解除
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          size="small"
+                          onClick={handleCreateSubmit}
+                        >
+                          フォロー
+                        </Button>
+                      </>
+                  )}
                 </>
               }
               title={user.name}

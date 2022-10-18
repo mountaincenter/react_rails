@@ -1,6 +1,5 @@
 import client, { auth } from "lib/api/client"
 import { UpdateUserData } from "interfaces"
-import Cookies from "js-cookie"
 
 export const getUsers = () => {
   return client.get("users", auth)

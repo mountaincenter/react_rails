@@ -1,27 +1,5 @@
 class Api::V1::ChatRoomsController < ApplicationController
   before_action :set_chat_room, only: %i[show]
-  # def create
-  #   chat_room = ChatRoom.create
-  #   other_user = ChatRoomUser.new(chat_room_user_params)
-  #   other_user.chat_room_id = chat_room.id
-  #   current_user = ChatRoomUser.new(user_id: current_api_v1_user.id, chat_room_id: chat_room.id)
-  #   if other_user.save
-  #     render json: { status: 200, other_user: other_user, current_chat_room_user: current_user }
-  #   else
-  #     render json: { status: 500, message:"登録に失敗しました" }
-  #   end
-  # end
-
-  # def create
-  #   chat_room = ChatRoom.create
-  #   2.times do |chat_room_user|
-  #     chat_room_user = ChatRoomUser.new(chat_room_user_params)
-  #     chat_room_user.chat_room_id = chat_room.id
-  #     chat_room_user.save
-  #   end
-  #   chat_room_users = ChatRoomUser.all
-  #   render json: { status: 200, chat_room: chat_room, chat_room_users: chat_room_users}
-  # end
 
   def create
     chat_room = ChatRoom.create

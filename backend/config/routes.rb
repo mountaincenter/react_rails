@@ -16,7 +16,7 @@ Rails.application.routes.draw do
         resources :sessions, only: %i[index]
       end
       resources :posts, only: %i[index create destroy show]
-      resources :relationships, only: %i[create, destroy]
+      resources :relationships, only: %i[create destroy]
     end
   end
 end

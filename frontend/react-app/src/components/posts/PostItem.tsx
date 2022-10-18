@@ -20,7 +20,7 @@ import { ja } from "date-fns/locale"
 import Default from "public/images/empty.jpeg"
 
 const CardStyles = {
-  width: 320,
+  width: 400,
   marginTop: "2rem",
   trantision: "all 0.3s",
   "&:hover": {
