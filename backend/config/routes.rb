@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       end
       resources :posts, only: %i[index create destroy show]
       resources :relationships, only: %i[create destroy]
+      resources :likes, only: %i[create destroy]
     end
   end
 end

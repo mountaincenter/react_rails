@@ -1,5 +1,4 @@
-import client from "lib/api/client"
-import clinet, { auth } from "lib/api/client"
+import client, { auth } from "lib/api/client"
 
 export const createFollow = (data: number | undefined) => {
   return client.post("/relationships", data, auth)

@@ -33,12 +33,19 @@ export interface Post {
     name: string
     email: string
   }
+  likes: Like[]
   createdAt? : any
 }
 
 
 export interface Image {
   url: string
+}
+
+export interface Like {
+  id: number | string
+  userId: number | string
+  postId: number | string
 }
 export interface PostApiJson {
   posts: Post[]
