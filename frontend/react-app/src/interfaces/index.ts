@@ -33,12 +33,19 @@ export interface Post {
     name: string
     email: string
   }
+  likes: Like[]
   createdAt? : any
 }
 
 
 export interface Image {
   url: string
+}
+
+export interface Like {
+  id: number | string
+  userId: number | string
+  postId: number | string
 }
 export interface PostApiJson {
   posts: Post[]
@@ -59,4 +66,30 @@ export interface UpdateUserData {
 
 export interface UpdateUserFormData extends FormData {
   append(name: keyof UpdateUserData, value: String | Blob, fileName?: string): any
+}
+
+export interface ChatRoom {
+  chatRoom: {
+    id: number
+  }
+  otherUser: User
+  lastMessage: Message
+}
+
+export interface Message {
+  chatRoomId: number
+  userId: number | undefined
+  content: string
+  createAt?: Date
+}
+
+export interface ChatRoomUser {
+  userId: number | undefined
+}
+export interface UserId {
+  userId: number | undefined
+}
+
+export interface UserIdJson {
+  [key: string]: UserId
 }

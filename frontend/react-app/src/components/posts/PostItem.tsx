@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
 
@@ -9,16 +9,21 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Avatar from "boring-avatars"
 
+import { AuthContext } from "App"
+
 import { Post, Image } from "interfaces"
 import { deletePost } from "lib/api/posts"
+
+import { createLike, deleteLike } from "lib/api/likes"
 
 import { formatDistance, format } from "date-fns"
 import { ja } from "date-fns/locale"
 
 import Default from "public/images/empty.jpeg"
+import { ConstructionOutlined } from "@mui/icons-material"
 
 const CardStyles = {
-  width: 320,
+  width: 400,
   marginTop: "2rem",
   trantision: "all 0.3s",
   "&:hover": {
@@ -38,12 +43,55 @@ interface ImageItemProps {
 }
 
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
-  const [like, setLike] = useState<boolean>(false)
+  const { currentUser } = useContext(AuthContext)
+  const value = post.likes.some(like => like.userId === currentUser?.id)
+  const islikeId = value ? post.likes.find(like => like.userId === currentUser?.id)?.id : false
+  const [liked, setLiked] = useState<boolean>(value)
+  const [likeId, setLikeId] = useState(islikeId)
+  const [likeCount, setLikeCount] =useState<number>(post.likes.length)
+  // console.log(likeCount)
+
   const handleDeletePost = async(id: string) => {
     await deletePost(id)
     .then(() => {
       handleGetPosts()
     })
+  }
+  // console.log(post.id)
+  const handleCreateLikeSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const data: any = {
+        postId: post.id
+      }
+      const res = await createLike(data)
+      if (res.status === 200) {
+        handleGetPosts()
+        setLiked(true)
+        setLikeCount((prev) => prev + 1)
+        const last = res.data.post.likes.slice(-1)[0]
+        setLikeId(last.id)
+      } else {
+        console.log("Could not create")
+      }
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleDeleteLikeSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const res = await deleteLike(likeId)
+      if (res.status === 200) {
+        handleGetPosts()
+        setLiked(false)
+        setLikeCount((prev) => prev - 1)
+        console.log(res)
+      } else {
+        console.log("Could not delete Like")
+      }
+    } catch(err) {
+      console.log(err)
+    }
   }
   const thumnail: any = post.images[0]
   const ImageItem = ({ image }: ImageItemProps) => {
@@ -75,9 +123,16 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
             </IconButton>
           }
           title={
-            <Link to={`/users/${post.user.id}`} style={{ textDecoration: "none"}}>
-              {post.user.name}
-            </Link>
+            <>
+              { post.user.id === currentUser?.id ? (
+                  <>{post.user.name}</>
+                ):(
+                  <Link style={{ textDecoration: "none"}} to={`/users/${post.user.id}`} >
+                    {post.user.name}
+                  </Link>
+                )
+              }
+            </>
           }
           subheader={
             formatDistance(
@@ -119,9 +174,16 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
           })}
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton onClick={() => like ? setLike(false) : setLike(true)}>
-            { like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
+          { liked ? (
+              <IconButton onClick={handleDeleteLikeSubmit}>
+                <FavoriteIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={handleCreateLikeSubmit}>
+                <FavoriteBorderIcon />
+              </IconButton>
+            )
+          } {likeCount}
           <IconButton>
             <ShareIcon />
           </IconButton>

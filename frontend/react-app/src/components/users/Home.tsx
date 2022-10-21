@@ -1,11 +1,11 @@
-import React, { useContext,  useState } from "react"
+import React, { useContext,  useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { AuthContext } from "App"
 import { Container, Grid, Card, CardHeader, CardContent, TextField, IconButton, Button, Typography, Divider, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material"
 import SettingsIcon from '@mui/icons-material/Settings'
 import Avatar from "boring-avatars"
-import { UpdateUserFormData } from "interfaces"
-import { getUser, updateUser } from "lib/api/users"
+import { UpdateUserFormData, User } from "interfaces"
+import { getUser, updateUser, getFollowingUsers, getFollowersUsers } from "lib/api/users"
 import { Title } from "@mui/icons-material"
 
 const UserHome = () => {
@@ -15,7 +15,8 @@ const UserHome = () => {
   const [editFormOpen, setEditFormOpen] = useState<boolean>(false)
   const [name, setName] = useState<string | undefined>(currentUser?.name)
   const [profile, setProfile ] = useState<string | undefined>(currentUser?.profile)
-  console.log(currentUser)
+  const [following, setFollowing] = useState<User[]>([])
+  const [followers, setFollowers] = useState<User[]>([])
 
 
   // とりあえずany型後で変更
@@ -25,6 +26,30 @@ const UserHome = () => {
     formData.append("profile", profile || "")
     return formData
   }
+
+  const handleGetFollowingUsers = async() => {
+    try{
+      const res = await getFollowingUsers(currentUser?.id)
+      setFollowing(res.data.users)
+      // console.log(res)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleGetFollowersUsers = async() => {
+    try{
+      const res = await getFollowersUsers(currentUser?.id)
+      setFollowers(res.data.users)
+      // console.log(res)
+    } catch(err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    handleGetFollowingUsers()
+    handleGetFollowersUsers()
+  }, [])
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -58,6 +83,14 @@ const UserHome = () => {
                         name={currentUser.name}
                         variant="beam"
                       />
+                    }
+                    subheader={
+                      <>
+                        <small>
+                          {following.length}フォロー中 &nbsp;
+                          {followers.length}フォロワー
+                        </small>
+                      </>
                     }
                     title={currentUser.name}
                     action={

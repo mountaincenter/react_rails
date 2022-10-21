@@ -5,6 +5,8 @@ import { User } from "interfaces"
 import Home from "components/pages/Home"
 import SignIn from "components/pages/SignIn"
 import SignUp from "components/pages/SignUp"
+import ChatRooms from "components/pages/ChatRooms"
+import ChatRoom from "components/pages/ChatRoom"
 import NotFound from "components/pages/NotFound"
 import { getCurrentUser } from "lib/api/auth"
 
@@ -69,10 +71,9 @@ const App: React.FC = () => {
               <Route path="/" element={<Private children={<Home />} />}/>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
-              <Route path="users">
-                <Route path=":id" element={<UserShow />} />
-              </Route>
-              {/* <Route path="/" element={<Private children={<UserHome />} />}/> */}
+              <Route path="/users/:id" element={<Private children={<UserShow />} />} />
+              <Route path="/chat_rooms" element={<Private children={<ChatRooms />} />} />
+              <Route path="/chat_rooms/:id" element={<Private children={<ChatRoom />} />} />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </CommonLayout>
