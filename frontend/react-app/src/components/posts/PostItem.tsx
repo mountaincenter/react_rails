@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
 
+import Carousel from "react-material-ui-carousel"
+
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -19,8 +21,11 @@ import { createLike, deleteLike } from "lib/api/likes"
 import { formatDistance, format } from "date-fns"
 import { ja } from "date-fns/locale"
 
+import Comments from "components/comments/Comments"
+import ImageItem from "components/posts/ImageItem"
+
+
 import Default from "public/images/empty.jpeg"
-import { ConstructionOutlined } from "@mui/icons-material"
 
 const CardStyles = {
   width: 400,
@@ -36,10 +41,6 @@ const CardStyles = {
 interface PostItemProps {
   post: Post
   handleGetPosts: Function
-}
-
-interface ImageItemProps {
-  image: Image
 }
 
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
@@ -93,18 +94,6 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
       console.log(err)
     }
   }
-  const thumnail: any = post.images[0]
-  const ImageItem = ({ image }: ImageItemProps) => {
-    return(
-      <>
-        <CardMedia
-          component="img"
-          src={image.url}
-          alt="post image"
-        />
-      </>
-    )
-  }
   return(
     <>
       <Card sx={{ ...CardStyles }}>
@@ -150,28 +139,26 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               })
             }
           </Typography>
-          { thumnail ? (
-            <CardMedia
-              component="img"
-              src={thumnail.url}
-              alt="post image"
-            />
-          ) : (
-            <CardMedia
-              component="img"
-              src={Default}
-              alt="defult"
-            />
-          )
-          }
-          { post.images.map((image) => {
-            return(
-              <ImageItem
-                key={image.url}
-                image={image}
+          { post.images.length > 0  ? (
+            <Carousel
+              autoPlay={false}
+            >
+              { post.images.map((image, index) => {
+                return(
+                  <ImageItem
+                    key={index}
+                    image={image}
+                  />
+                )
+              })}
+            </Carousel>
+            ) : (
+              <CardMedia
+                component="img"
+                src={Default}
+                alt="defult"
               />
-            )
-          })}
+            )}
         </CardContent>
         <CardActions disableSpacing>
           { liked ? (
@@ -184,9 +171,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               </IconButton>
             )
           } {likeCount}
-          <IconButton>
-            <ShareIcon />
-          </IconButton>
+            <Comments post={post} liked={liked} setLiked={setLiked}/>
           <IconButton
             sx={{ marginLeft: "auto"}}
             onClick={() => handleDeletePost(post.id)}
