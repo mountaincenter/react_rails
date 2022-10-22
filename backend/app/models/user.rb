@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   has_many :chat_room_users, dependent: :destroy
   has_many :chat_room, through: :chat_room_users
   has_many :messages, dependent: :destroy
-  has_many :likes
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   has_many :active_relationships, class_name: "Relationship",
                                   foreign_key: "follower_id",

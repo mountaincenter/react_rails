@@ -2,7 +2,8 @@ class Post < ApplicationRecord
   belongs_to :user
   mount_uploaders :images, ImageUploader
   validates :content, presence: true, length: { maximum: 140 }
-  has_many :likes
+  has_many :likes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   def like(user)
     likes.create(user_id: user.id)
