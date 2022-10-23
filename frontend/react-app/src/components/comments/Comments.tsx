@@ -10,17 +10,14 @@ import {
   Divider,
   Grid,
   IconButton,
-  List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  TextField,
-  Typography  } from "@mui/material"
+  TextField, } from "@mui/material"
 
-  import { FixedSizeList, ListChildComponentProps } from 'react-window';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import CarouselImage from "components/posts/CarouselImage"
-
-import FavoriteIcon from '@mui/icons-material/Favorite'
+import Like from "components/likes/Like"
 
 import CommentIcon from '@mui/icons-material/Comment'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -156,9 +153,7 @@ const Comments = ({post, currentUser}: PostProps) => {
                 </CardContent>
                 <Divider />
                 <CardActions>
-                  <IconButton>
-                    <FavoriteIcon />
-                  </IconButton>
+                  <Like post={post} currentUser={currentUser}/>
                 </CardActions>
                 <Divider />
                   <CardContent>
