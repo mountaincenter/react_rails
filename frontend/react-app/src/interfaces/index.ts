@@ -34,6 +34,7 @@ export interface Post {
     email: string
   }
   likes: Like[]
+  likesCount: number
   createdAt? : any
 }
 
@@ -92,4 +93,9 @@ export interface UserId {
 
 export interface UserIdJson {
   [key: string]: UserId
+}
+
+export interface PostProps {
+  post: Post
+  currentUser: User | undefined
 }

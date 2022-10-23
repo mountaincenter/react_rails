@@ -3,14 +3,10 @@ import { CardHeader, IconButton } from "@mui/material"
 import { Link } from "react-router-dom"
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Avatar from "boring-avatars"
-import { Post, User } from "interfaces"
+import { PostProps } from "interfaces"
 import { formatDistance, format } from "date-fns"
 import { ja } from "date-fns/locale"
 
-interface PostProps {
-  post: Post
-  currentUser: User | undefined
-}
 const Header = ({post, currentUser}: PostProps) => {
   return(
     <>
