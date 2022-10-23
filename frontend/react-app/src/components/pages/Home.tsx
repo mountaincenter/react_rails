@@ -3,9 +3,7 @@ import { AuthContext } from "App"
 import { Link } from "react-router-dom"
 import PostList from "components/posts/PostList"
 import UserHome from "components/users/Home"
-const LinkStyle = {
-  textDecoration: "none",
-}
+
 
 const Home: React.FC = () => {
   const { isSignedIn, currentUser } = useContext(AuthContext)
