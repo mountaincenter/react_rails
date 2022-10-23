@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react"
 import { Link } from "react-router-dom"
-import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
+import { Card, CardHeader, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
 
-import Carousel from "react-material-ui-carousel"
 
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
@@ -22,10 +21,9 @@ import { formatDistance, format } from "date-fns"
 import { ja } from "date-fns/locale"
 
 import Comments from "components/comments/Comments"
-import ImageItem from "components/posts/ImageItem"
+import CarouselImage from "components/posts/CarouselImage"
+import Header from "components/posts/Header"
 
-
-import Default from "public/images/empty.jpeg"
 
 const CardStyles = {
   width: 400,
@@ -59,6 +57,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
     })
   }
   // console.log(post.id)
+
   const handleCreateLikeSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     try {
       const data: any = {
@@ -97,39 +96,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
   return(
     <>
       <Card sx={{ ...CardStyles }}>
-        <CardHeader
-          avatar={
-            <Link to="/users">
-              <Avatar
-                name={post.user.name}
-                variant="beam"
-              />
-            </Link>
-          }
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={
-            <>
-              { post.user.id === currentUser?.id ? (
-                  <>{post.user.name}</>
-                ):(
-                  <Link style={{ textDecoration: "none"}} to={`/users/${post.user.id}`} >
-                    {post.user.name}
-                  </Link>
-                )
-              }
-            </>
-          }
-          subheader={
-            formatDistance(
-              new Date(),
-              Date.parse(post.createdAt), {locale:ja}
-            )
-          }
-        />
+        <Header post={post} currentUser={currentUser}/>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="span">
             { post.content.split("\n").map((body: string, index: number) => {
@@ -139,26 +106,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               })
             }
           </Typography>
-          { post.images.length > 0  ? (
-            <Carousel
-              autoPlay={false}
-            >
-              { post.images.map((image, index) => {
-                return(
-                  <ImageItem
-                    key={index}
-                    image={image}
-                  />
-                )
-              })}
-            </Carousel>
-            ) : (
-              <CardMedia
-                component="img"
-                src={Default}
-                alt="defult"
-              />
-            )}
+          <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
           { liked ? (
@@ -171,7 +119,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               </IconButton>
             )
           } {likeCount}
-            <Comments post={post} liked={liked} setLiked={setLiked}/>
+            <Comments post={post} currentUser={currentUser}/>
           <IconButton
             sx={{ marginLeft: "auto"}}
             onClick={() => handleDeletePost(post.id)}
