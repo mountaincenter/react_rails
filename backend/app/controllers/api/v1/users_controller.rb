@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: %i[show update]
+  before_action :set_user, only: %i[show update following followers]
 
   def index
     users = User.where.not(id: current_api_v1_user.id)
@@ -7,7 +7,21 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    render json: { status: 200, user: @user}
+    @user = User.find(params[:id])
+    @current_user = ChatRoomUser.where(user_id: current_api_v1_user.id)
+    @other_user = ChatRoomUser.where(user_id: @user.id)
+    @is_room = false
+    unless @user.id == current_api_v1_user.id
+      @current_user.each do |current|
+        @other_user.each do |other|
+          if current.chat_room_id == other.chat_room_id
+            @is_room = true
+          end
+        end
+      end
+    end
+    @is_following = current_api_v1_user.following?(@user)
+    render json: { status: 200, user: @user, is_room: @is_room, is_following: @is_following, following: @user.following, followers: @user.followers }
   end
 
   def update
@@ -18,6 +32,16 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { status: 500, message: "更新に失敗しました"}
     end
+  end
+
+  def following
+    @users = @user.following
+    render json: { status: 200, users: @users }
+  end
+
+  def followers
+    @users = @user.followers
+    render json: { status: 200, users: @users}
   end
 
   private

@@ -1,24 +1,23 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
-import { Card, CardHeader, CardMedia, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
+import { useContext } from "react"
 
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import ShareIcon from '@mui/icons-material/Share'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
+import { Card, CardContent, CardActions, IconButton, Typography, Divider} from "@mui/material"
+
 import DeleteIcon from '@mui/icons-material/Delete'
-import Avatar from "boring-avatars"
 
-import { Post, Image } from "interfaces"
+import { AuthContext } from "App"
+
+import { Post } from "interfaces"
+
 import { deletePost } from "lib/api/posts"
 
-import { formatDistance, format } from "date-fns"
-import { ja } from "date-fns/locale"
+import Header from "components/posts/Header"
+import CarouselImage from "components/posts/CarouselImage"
+import Comments from "components/comments/Comments"
+import Like from "components/likes/Like"
 
-import Default from "public/images/empty.jpeg"
 
 const CardStyles = {
-  width: 320,
+  width: 400,
   marginTop: "2rem",
   trantision: "all 0.3s",
   "&:hover": {
@@ -33,59 +32,20 @@ interface PostItemProps {
   handleGetPosts: Function
 }
 
-interface ImageItemProps {
-  image: Image
-}
-
 const PostItem = ({post, handleGetPosts}: PostItemProps) => {
-  const [like, setLike] = useState<boolean>(false)
+  const { currentUser } = useContext(AuthContext)
+
   const handleDeletePost = async(id: string) => {
     await deletePost(id)
     .then(() => {
       handleGetPosts()
     })
   }
-  const thumnail: any = post.images[0]
-  const ImageItem = ({ image }: ImageItemProps) => {
-    return(
-      <>
-        <CardMedia
-          component="img"
-          src={image.url}
-          alt="post image"
-        />
-      </>
-    )
-  }
+
   return(
     <>
       <Card sx={{ ...CardStyles }}>
-        <CardHeader
-          avatar={
-            <Link to="/users">
-              <Avatar
-                name={post.user.name}
-                variant="beam"
-              />
-            </Link>
-          }
-          action={
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={
-            <Link to={`/users/${post.user.id}`} style={{ textDecoration: "none"}}>
-              {post.user.name}
-            </Link>
-          }
-          subheader={
-            formatDistance(
-              new Date(),
-              Date.parse(post.createdAt), {locale:ja}
-            )
-          }
-        />
+        <Header post={post} currentUser={currentUser}/>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="span">
             { post.content.split("\n").map((body: string, index: number) => {
@@ -95,36 +55,11 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
               })
             }
           </Typography>
-          { thumnail ? (
-            <CardMedia
-              component="img"
-              src={thumnail.url}
-              alt="post image"
-            />
-          ) : (
-            <CardMedia
-              component="img"
-              src={Default}
-              alt="defult"
-            />
-          )
-          }
-          { post.images.map((image) => {
-            return(
-              <ImageItem
-                key={image.url}
-                image={image}
-              />
-            )
-          })}
+          <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton onClick={() => like ? setLike(false) : setLike(true)}>
-            { like ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <IconButton>
-            <ShareIcon />
-          </IconButton>
+            <Like post={post} currentUser={currentUser}></Like>
+            <Comments post={post} currentUser={currentUser}/>
           <IconButton
             sx={{ marginLeft: "auto"}}
             onClick={() => handleDeletePost(post.id)}

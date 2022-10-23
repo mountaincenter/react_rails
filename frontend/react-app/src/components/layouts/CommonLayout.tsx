@@ -13,7 +13,7 @@ const CommonLayout = ({ children } : CommonLayoutProps) => {
         <Header />
       </header>
       <main>
-        <Container maxWidth="lg" sx={{ marginTop: "3rem"}}>
+        <Container maxWidth="xl" sx={{ marginTop: "3rem"}}>
           <Grid container justifyContent="center">
             <Grid item>
               {children}
