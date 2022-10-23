@@ -14,6 +14,7 @@ import Header from "components/posts/Header"
 import CarouselImage from "components/posts/CarouselImage"
 import Comments from "components/comments/Comments"
 import Like from "components/likes/Like"
+import Bookmark from "components/bookmarks/Bookmark"
 
 
 const CardStyles = {
@@ -58,8 +59,9 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
           <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
-            <Like post={post} currentUser={currentUser}></Like>
-            <Comments post={post} currentUser={currentUser}/>
+            <Like post={post} currentUser={currentUser} />
+            <Comments post={post} currentUser={currentUser} />
+            <Bookmark post={post} currentUser={currentUser}/>
           <IconButton
             sx={{ marginLeft: "auto"}}
             onClick={() => handleDeletePost(post.id)}

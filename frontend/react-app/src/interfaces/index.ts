@@ -34,6 +34,7 @@ export interface Post {
     email: string
   }
   likes: Like[]
+  bookmarks: Bookmark[]
   likesCount: number
   createdAt? : any
 }
@@ -44,6 +45,11 @@ export interface Image {
 }
 
 export interface Like {
+  id: number | string
+  userId: number | string
+  postId: number | string
+}
+export interface Bookmark {
   id: number | string
   userId: number | string
   postId: number | string
