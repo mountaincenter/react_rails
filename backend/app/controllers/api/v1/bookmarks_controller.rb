@@ -1,4 +1,10 @@
 class Api::V1::BookmarksController < ApplicationController
+
+  def show
+    bookmarks = Bookmark.where(user_id: params[:id])
+    render json: comments
+  end
+
   def create
     post = Post.find(params[:post_id])
     render if post.bookmark?(current_api_v1_user)
