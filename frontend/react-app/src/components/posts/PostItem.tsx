@@ -16,6 +16,7 @@ import Comments from "components/comments/Comments"
 import Like from "components/likes/Like"
 import Bookmark from "components/bookmarks/Bookmark"
 
+import { textToLink } from "components/utils/Hashtag"
 
 const CardStyles = {
   width: 400,
@@ -48,13 +49,20 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
       <Card sx={{ ...CardStyles }}>
         <Header post={post} currentUser={currentUser}/>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="span">
+          {/* <Typography variant="body2" color="textSecondary" component="span">
             { post.content.split("\n").map((body: string, index: number) => {
                 return (
                   <p key={index}>{body}</p>
                 )
               })
             }
+          </Typography> */}
+          <Typography variant="body2" color="textSecondary" component="span">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: textToLink(post.content)
+              }}
+            />
           </Typography>
           <CarouselImage post={post} />
         </CardContent>
