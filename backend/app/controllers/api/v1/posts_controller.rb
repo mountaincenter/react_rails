@@ -24,6 +24,13 @@ class Api::V1::PostsController < ApplicationController
     render json: @post
   end
 
+  def hashtag
+    # @user = current_api_v1_user
+    @tag = Hashtag.find_by(hashname: params[:name])
+    @posts = @tag.posts
+    render json: @posts
+  end
+
   private
 
     def set_post

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         resources :sessions, only: %i[index]
       end
       resources :posts, only: %i[index create destroy show]
+      get '/post/hashtag/:name', to: "posts#hashtag"
       resources :relationships, only: %i[create destroy]
       resources :likes, only: %i[create destroy]
       resources :comments, only: %i[show create]
