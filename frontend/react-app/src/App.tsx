@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext } from "react"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom"
 import CommonLayout from "components/layouts/CommonLayout"
 import { User } from "interfaces"
 import Home from "components/pages/Home"
@@ -12,6 +12,13 @@ import { getCurrentUser } from "lib/api/auth"
 
 import UserHome from "components/users/Home"
 import UserShow from "components/users/User"
+
+import HashTag from "components/pages/HashTag"
+
+import Hooks from "components/hooks/Hooks"
+import Test1 from "components/hooks/test1"
+import Test2 from "components/hooks/test2"
+
 
 export const AuthContext = createContext({} as {
   loading: boolean
@@ -62,6 +69,7 @@ const App: React.FC = () => {
     }
   }
 
+
   return (
     <>
       <BrowserRouter>
@@ -69,11 +77,16 @@ const App: React.FC = () => {
           <CommonLayout>
             <Routes>
               <Route path="/" element={<Private children={<Home />} />}/>
+              {/* <Route path="/" element={<Hooks />}/> */}
+              <Route path="/test1" element={<Test1 />}/>
+              <Route path="/test2" element={<Test2 />}/>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/users/:id" element={<Private children={<UserShow />} />} />
               <Route path="/chat_rooms" element={<Private children={<ChatRooms />} />} />
-              <Route path="/chat_rooms/:id" element={<Private children={<ChatRoom />} />} />
+              {/* <Route path="/chat_rooms/:id" element={<Private children={<ChatRoom />} />} /> */}
+              <Route path="/hashtag/:hashName" element={<Private children={<HashTag/>} />}/>
+              <Route path="/hashtag/:hashName" element={<HashTag/>}/>
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </CommonLayout>
