@@ -4,4 +4,7 @@ unless User.exists?
     User.create!(email: email, password:"password",
                  uid: email, provider: "email", name: Faker::Name.name, profile: "test#{i + 1}ユーザーです")
   end
+  guest = "guest@example.com"
+  User.create!(email:guest, password: "password",
+                uid: guest, provider: "email", name:"ゲストユーザー", profile: "ゲストユーザーです")
 end

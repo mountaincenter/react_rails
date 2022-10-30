@@ -5,7 +5,7 @@ import Cookies from "js-cookie"
 import { AuthContext } from "App"
 import AlertMessage from "components/utils/AlertMessage"
 import { SignInData } from "interfaces"
-import { signIn } from "lib/api/auth"
+import { signIn, guestSignIn } from "lib/api/auth"
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate()
@@ -46,22 +46,16 @@ const SignIn: React.FC = () => {
   }
   const handleEasySubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
-    const params: SignInData= {
-      email: "test10@example.com",
-      password: "password"
-    }
-
     try {
-      const res = await signIn(params)
-
+      const res = await guestSignIn()
+      console.log(res)
       if (res.status === 200) {
         Cookies.set("_access_token", res.headers["access-token"] )
         Cookies.set("_client", res.headers["client"] )
         Cookies.set("_uid", res.headers["uid"] )
 
         setIsSignedIn(true)
-        setCurrentUser(res.data.data)
+        setCurrentUser(res.data.user)
 
         navigate("/")
 

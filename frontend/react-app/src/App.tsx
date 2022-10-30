@@ -74,8 +74,8 @@ const App: React.FC = () => {
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
           <CommonLayout>
             <Routes>
-              {/* <Route path="/" element={<Private children={<Home />} />}/> */}
-              <Route path="/" element={<Draft />}/>
+              <Route path="/" element={<Private children={<Home />} />}/>
+              {/* <Route path="/" element={<Draft />}/> */}
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/users/:id" element={<Private children={<UserShow />} />} />

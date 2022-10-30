@@ -13,7 +13,10 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations'
       }
       namespace :auth do
+        # resources :sessions, only: %i[index guest_sign_in]
         resources :sessions, only: %i[index]
+        post '/sessions/guest_sign_in', to: "sessions#guest_sign_in"
+        # resources :sessions
       end
       resources :posts, only: %i[index create destroy show]
       get '/post/hashtag/:name', to: "posts#hashtag"

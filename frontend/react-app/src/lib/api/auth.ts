@@ -23,3 +23,8 @@ export const getCurrentUser = () => {
   if(!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return
   return client.get("auth/sessions", auth )
 }
+
+// ゲストユーザーでサインイン
+export const guestSignIn = () =>{
+  return client.post("auth/sessions/guest_sign_in")
+}

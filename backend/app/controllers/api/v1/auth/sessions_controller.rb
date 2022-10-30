@@ -6,4 +6,9 @@ class Api::V1::Auth::SessionsController < ApplicationController
       render json: { status: 500, message: "ユーザーが存在しません" }
     end
   end
+
+  def guest_sign_in
+    user = User.guest
+    render json: { status: 200, user: user, message: "ゲストロユーザーでログインしました"}
+  end
 end

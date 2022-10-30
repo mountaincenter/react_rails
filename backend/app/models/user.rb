@@ -39,4 +39,16 @@ class User < ActiveRecord::Base
     following.include?(other_user)
   end
 
+  def self.guest
+    find_or_create_by!(
+      email: 'guest@example.com',
+      uid: 'guest@example.com',
+      provider: 'email',
+      name: 'ゲストユーザー',
+      profile: 'ゲストユーザーです'
+    ) do |user|
+      user.password = SecureRandom.urlsafe_base64
+    end
+  end
+
 end
