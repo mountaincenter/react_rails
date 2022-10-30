@@ -45,29 +45,9 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
       handleGetPosts()
     })
   }
-  const TextToLink = (comment :any) => {
-    const regexp_hash = /#+([a-zA-Z0-9亜-熙ぁ-んァ-ヶー-龥朗-鶴.\-_]+)/g;
-    let linkedComment = comment.replace(
-      regexp_hash,
-      '<a href="/search?q=$1&type=hash">#$1</a>'
-      // "<Link to=`/hashtag/#{$1}`>#$1</Link>"
-      // '#$1'
-      )
-    return linkedComment
-  }
-  const text = "create from react #test"
+
   return(
     <>
-      <Typography variant="body2" color="textSecondary">
-        {TextToLink(text)}
-      </Typography>
-      <Typography variant="body2" color="textSecondary" component="span">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: TextToLink(text)
-              }}
-            />
-          </Typography>
       <Card sx={{ ...CardStyles }}>
         <Header post={post} currentUser={currentUser}/>
         <CardContent>
@@ -78,16 +58,7 @@ const PostItem = ({post, handleGetPosts}: PostItemProps) => {
                 )
               })
             }
-            {/* {TextToLink(post.content)} */}
           </Typography>
-          {/* <Typography variant="body2" color="textSecondary" component="span">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: TextToLink(post.content)
-              }}
-            />
-          </Typography> */}
-          <CarouselImage post={post} />
         </CardContent>
         <CardActions disableSpacing>
             <Like post={post} currentUser={currentUser} />

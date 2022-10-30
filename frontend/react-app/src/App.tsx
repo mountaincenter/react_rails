@@ -15,9 +15,7 @@ import UserShow from "components/users/User"
 
 import HashTag from "components/pages/HashTag"
 
-import Hooks from "components/hooks/Hooks"
-import Test1 from "components/hooks/test1"
-import Test2 from "components/hooks/test2"
+import Draft from "components/draftjs/Draft"
 
 
 export const AuthContext = createContext({} as {
@@ -76,10 +74,8 @@ const App: React.FC = () => {
         <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
           <CommonLayout>
             <Routes>
-              <Route path="/" element={<Private children={<Home />} />}/>
-              {/* <Route path="/" element={<Hooks />}/> */}
-              <Route path="/test1" element={<Test1 />}/>
-              <Route path="/test2" element={<Test2 />}/>
+              {/* <Route path="/" element={<Private children={<Home />} />}/> */}
+              <Route path="/" element={<Draft />}/>
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/users/:id" element={<Private children={<UserShow />} />} />
